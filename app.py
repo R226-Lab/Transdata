@@ -42,16 +42,16 @@ prompt = st.text_input("Masukkan pertanyaan (misal: 'Top 5 penyedia di Jakarta')
     # model = palm.GenerativeModel("models/text-bison-001")
 
     # Kirim prompt ke model
-    api_key = st.secrets["genai"]["api_key"]
-    genai.configure(api_key=api_key)
+api_key = st.secrets["genai"]["api_key"]
+genai.configure(api_key=api_key)
 
-    model = genai.GenerativeModel("gemini-pro")
+model = genai.GenerativeModel("gemini-pro")
 
-    # UI Streamlit
-    st.title("Query Data BigQuery dengan NLP")
+# UI Streamlit
+st.title("Query Data BigQuery dengan NLP")
 
-    # Input Natural Language
-    prompt = st.text_input("Masukkan pertanyaan (misal: 'Top 5 penyedia di Jakarta'):")
+# Input Natural Language
+prompt = st.text_input("Masukkan pertanyaan (misal: 'Top 5 penyedia di Jakarta'):")
 
 if st.button("Jalankan Query"):
     # Kirim ke Gemini untuk diubah ke SQL
