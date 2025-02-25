@@ -3,7 +3,7 @@ from google.cloud import bigquery
 import google.generativeai as palm
 
 # Ambil API Key dari secrets
-api_key = st.secrets["vertex_ai"]["api_key"]
+api_key = st.secrets["vertex_ai"]
 palm.configure(api_key=api_key)
 
 # Konfigurasi BigQuery Client
