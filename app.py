@@ -38,14 +38,13 @@ prompt = st.text_input("Masukkan pertanyaan (misal: 'Top 5 penyedia di Jakarta')
 
 if st.button("Jalankan Query"):
     # Kirim ke Vertex AI untuk diubah ke SQL
-    palm_response = palm.generate_text(
-        model="models/text-bison-001", 
-        prompt=f"Convert this question to SQL query: {prompt}",
-        max_output_tokens=100
-    )
+model = palm.GenerativeModel("models/text-bison-001")
 
-    # Ambil SQL yang dihasilkan
-    generated_sql = palm_response.result
+# Kirim prompt ke model
+palm_response = model.generate_content(f"Convert this question to SQL query: {prompt}")
+
+# Ambil teks hasilnya
+generated_sql = palm_response.text if palm_response and palm_response.text else ""
 
     st.write("Query SQL yang dihasilkan:")
     st.code(generated_sql)
