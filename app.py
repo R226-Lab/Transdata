@@ -27,7 +27,7 @@ credentials_info = {
 credentials = service_account.Credentials.from_service_account_info(credentials_info)
 
 # Inisialisasi BigQuery Client
-client = bigquery.Client(credentials=credentials, project=credentials_info["transdata-451904"])
+client = bigquery.Client(credentials=credentials, project=credentials_info["project_id"])
 
 # UI Streamlit
 st.title("Query Data BigQuery dengan NLP")
