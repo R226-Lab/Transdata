@@ -6,7 +6,7 @@ from google.oauth2 import service_account
 import google.generativeai as genai
 
 # Ambil API Key dari secrets
-api_key = st.secrets["vertex_ai"]
+#api_key = st.secrets["vertex_ai"]
 api_key = st.secrets["vertex_ai"]["api_key"]
 palm.configure(api_key=api_key)
 
@@ -42,7 +42,8 @@ if st.button("Jalankan Query"):
     # model = palm.GenerativeModel("models/text-bison-001")
 
 # Kirim prompt ke model
-    genai.configure(api_key="AIzaSyB87SCWAD5J8U8bYQjCRwT-_5aLLWWBvPk")
+    api_key2 = st.secrets["genai"]["api_key"]
+    genai.configure(api_key2)
 
     response = genai.generate_text(
         model="models/text-bison-001",
