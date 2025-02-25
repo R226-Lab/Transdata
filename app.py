@@ -3,6 +3,7 @@ import streamlit as st
 from google.cloud import bigquery
 import google.generativeai as palm
 from google.oauth2 import service_account
+import google.generativeai as genai
 
 # Ambil API Key dari secrets
 api_key = st.secrets["vertex_ai"]
@@ -38,10 +39,18 @@ prompt = st.text_input("Masukkan pertanyaan (misal: 'Top 5 penyedia di Jakarta')
 
 if st.button("Jalankan Query"):
     # Kirim ke Vertex AI untuk diubah ke SQL
-    model = palm.GenerativeModel("models/text-bison-001")
+    # model = palm.GenerativeModel("models/text-bison-001")
 
 # Kirim prompt ke model
-    palm_response = model.generate_content(f"Convert this question to SQL query: {prompt}")
+    genai.configure(api_key="AIzaSyB87SCWAD5J8U8bYQjCRwT-_5aLLWWBvPk")
+
+    response = genai.generate_text(
+        model="models/text-bison-001",
+        prompt=f"Convert this question to SQL query: {prompt}"
+    )
+
+print(response.text)
+
 
 # Ambil teks hasilnya
     generated_sql = palm_response.text if palm_response and palm_response.text else ""
