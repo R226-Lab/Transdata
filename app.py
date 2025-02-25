@@ -9,7 +9,7 @@ api_key = st.secrets["vertex_ai"]
 palm.configure(api_key=api_key)
 
 # Konfigurasi BigQuery Client
-credentials_info = json.loads(st.secrets["bigquery"]["credentials"])
+credentials_info = json.loads(st.secrets["bigquery"])
 credentials = service_account.Credentials.from_service_account_info(credentials_info)
 client = bigquery.Client(credentials=credentials, project=credentials_info["transdata-451904"])
 
