@@ -1,13 +1,17 @@
+import json
 import streamlit as st
 from google.cloud import bigquery
 import google.generativeai as palm
+from google.oauth2 import service_account
 
 # Ambil API Key dari secrets
 api_key = st.secrets["vertex_ai"]
 palm.configure(api_key=api_key)
 
 # Konfigurasi BigQuery Client
-client = bigquery.Client()
+credentials_info = json.loads(st.secrets["bigquery"]["credentials"])
+credentials = service_account.Credentials.from_service_account_info(credentials_info)
+client = bigquery.Client(credentials=credentials, project=credentials_info["transdata-451904"])
 
 # UI Streamlit
 st.title("Query Data BigQuery dengan NLP")
