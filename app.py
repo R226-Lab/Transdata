@@ -5,7 +5,7 @@ import google.generativeai as palm
 from google.oauth2 import service_account
 
 # Ambil API Key dari secrets
-api_key = st.secrets["vertex_ai"]
+api_key = st.secrets["vertex_ai"]["api_key"]
 palm.configure(api_key=api_key)
 
 # Konfigurasi BigQuery Client
