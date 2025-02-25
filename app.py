@@ -42,8 +42,8 @@ if st.button("Jalankan Query"):
     # model = palm.GenerativeModel("models/text-bison-001")
 
 # Kirim prompt ke model
-    api_key2 = st.secrets["genai"]["api_key"]
-    genai.configure(api_key2)
+    api_key = st.secrets["genai"]["api_key"]
+    genai.configure(api_key=api_key)
 
     response = genai.generate_text(
         model="models/text-bison-001",
