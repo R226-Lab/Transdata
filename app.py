@@ -7,8 +7,8 @@ import google.generativeai as genai
 
 # Ambil API Key dari secrets
 #api_key = st.secrets["vertex_ai"]
-api_key = st.secrets["vertex_ai"]["api_key"]
-palm.configure(api_key=api_key)
+#api_key = st.secrets["vertex_ai"]["api_key"]
+#palm.configure(api_key=api_key)
 
 # Konfigurasi BigQuery Client
 credentials_info = {
