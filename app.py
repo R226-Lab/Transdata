@@ -37,24 +37,28 @@ st.title("Query Data BigQuery dengan NLP")
 # Input Natural Language
 prompt = st.text_input("Masukkan pertanyaan (misal: 'Top 5 penyedia di Jakarta'):")
 
-if st.button("Jalankan Query"):
+#if st.button("Jalankan Query"):
     # Kirim ke Vertex AI untuk diubah ke SQL
     # model = palm.GenerativeModel("models/text-bison-001")
 
-# Kirim prompt ke model
+    # Kirim prompt ke model
     api_key = st.secrets["genai"]["api_key"]
     genai.configure(api_key=api_key)
 
-    response = genai.generate_text(
-        model="models/text-bison-001",
-        prompt=f"Convert this question to SQL query: {prompt}"
-    )
+    model = genai.GenerativeModel("gemini-pro")
 
-    print(response.text)
+    # UI Streamlit
+    st.title("Query Data BigQuery dengan NLP")
 
+    # Input Natural Language
+    prompt = st.text_input("Masukkan pertanyaan (misal: 'Top 5 penyedia di Jakarta'):")
 
-# Ambil teks hasilnya
-    generated_sql = palm_response.text if palm_response and palm_response.text else ""
+if st.button("Jalankan Query"):
+    # Kirim ke Gemini untuk diubah ke SQL
+    response = model.generate_content(f"Convert this question to SQL query: {prompt}")
+
+    # Ambil SQL yang dihasilkan
+    generated_sql = response.text
 
     st.write("Query SQL yang dihasilkan:")
     st.code(generated_sql)
