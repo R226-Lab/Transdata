@@ -50,7 +50,7 @@ if st.button("Jalankan Query"):
         prompt=f"Convert this question to SQL query: {prompt}"
     )
 
-print(response.text)
+    print(response.text)
 
 
 # Ambil teks hasilnya
