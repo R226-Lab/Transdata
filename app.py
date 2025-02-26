@@ -31,17 +31,7 @@ credentials = service_account.Credentials.from_service_account_info(credentials_
 # Inisialisasi BigQuery Client
 client = bigquery.Client(credentials=credentials, project=credentials_info["project_id"])
 
-# UI Streamlit
-st.title("Query Data BigQuery dengan NLP")
-
-# Input Natural Language
-prompt = st.text_input("Masukkan pertanyaan (misal: 'Top 5 penyedia di Jakarta'):")
-
-#if st.button("Jalankan Query"):
-    # Kirim ke Vertex AI untuk diubah ke SQL
-    # model = palm.GenerativeModel("models/text-bison-001")
-
-    # Kirim prompt ke model
+# Kirim prompt ke model
 api_key = st.secrets["genai"]["api_key"]
 genai.configure(api_key=api_key)
 
