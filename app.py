@@ -35,7 +35,8 @@ client = bigquery.Client(credentials=credentials, project=credentials_info["proj
 api_key = st.secrets["genai"]["api_key"]
 genai.configure(api_key=api_key)
 
-model = genai.GenerativeModel("gemini-pro")
+model = genai.GenerativeModel("gemini-1.0-pro")
+print(genai.list_models())
 
 # UI Streamlit
 st.title("Query Data BigQuery dengan NLP")
