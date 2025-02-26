@@ -66,7 +66,9 @@ user_question = st.text_input("Masukkan pertanyaan (misal: 'Top 5 penyedia di Ja
 if st.button("Jalankan Query"):
     # Prompt untuk Gemini
     prompt = f"""
+    You are an expert in Google BigQuery SQL. Convert the given natural language question into a valid BigQuery SQL query.
     Based on the following BigQuery table schema and sample data, convert the given natural language question into an SQL query.
+    Always enclose table names and column names with backticks (`) to prevent syntax errors.
 
     ## **Important Instructions**:
     - Use the exact table name: `{table_id}`
