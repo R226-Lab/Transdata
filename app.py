@@ -121,9 +121,12 @@ if st.button("Jalankan Query"):
         query_job = client.query(generated_sql)
         results = query_job.result()
 
+        df = results.to_dataframe()
+        st.session_state.last_query_result = df.to_dict(orient="records")
+        
         # Tampilkan hasil dalam tabel
         st.write("Hasil Query:")
-        st.dataframe(results.to_dataframe())
-        st.session_state.last_query_result = df.to_dict(orient="records")
+        st.dataframe(df)
+        
     else:
         st.error("Gagal mendapatkan query SQL dari Gemini. Coba lagi.")
