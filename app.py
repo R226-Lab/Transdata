@@ -36,12 +36,12 @@ api_key = st.secrets["genai"]["api_key"]
 genai.configure(api_key=api_key)
 
 #print(genai.list_models())
-#model = genai.GenerativeModel("gemini-1.0-pro")
-models = genai.list_models()
+model = genai.GenerativeModel("gemini-1.5-flash-latest")
+#models = genai.list_models()
 
 # Print semua model yang bisa digunakan
-for model in models:
-    print(model.name)
+#for model in models:
+#    print(model.name)
     
 # UI Streamlit
 st.title("Query Data BigQuery dengan NLP")
