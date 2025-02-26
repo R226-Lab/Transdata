@@ -2,3 +2,4 @@ streamlit
 google-cloud-bigquery
 google-generativeai
 pandas
+db-dtypes
