@@ -75,6 +75,8 @@ if st.button("Jalankan Query"):
     - If a column name has spaces, enclose it in backticks (`).
     - Do not modify or guess any column names.
     - Ensure the query runs correctly in **Google BigQuery**.
+    - Output directly with the SQL Query coDE, without need "```sql" or "```"
+    - Also pay attention to the appearance of unnecessary backticks, that could makes sql query error
 
     Table Schema:
     {schema_info}
