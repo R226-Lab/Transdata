@@ -75,17 +75,21 @@ if st.button("Jalankan Query"):
     Always enclose table names and column names with backticks (`) to prevent syntax errors.
 
     ## **Important Instructions**:
+    - Always use **backticks (`) for table names and column names**.  
+    - Always Use **LOWER() for STRING or BYTES columns**.  
+    - If the column type is FLOAT64, INT64, or any number type, **DO NOT use LOWER()**.  
+    - Always return a **clean SQL query** without markdown formatting (` ```sql ... ``` `). 
     - Use the exact table name: `{table_id}`
     - Use the exact column names and formatting as they appear in BigQuery.
     - Preserve **uppercase and lowercase** letters exactly as in the schema.
-    - If a column name has spaces, enclose it in backticks (`).
+    ##- If a column name has spaces, enclose it in backticks (`).
     - Do not modify or guess any column names.
     - Ensure the query runs correctly in **Google BigQuery**.
-    - Output directly with the SQL Query coDE, without need "```sql" or "```"
-    - Also pay attention to the appearance of unnecessary backticks, that could makes sql query error
-    - Pay lot of your attention on the field name from bigquery, mostly we are using space not underscore, so doublecheck on it more precise
-    - Ensure always to use LOWER on all and every field's value and input's value
-    - Always remember if the field name has space, enclose it in backticks (`).
+    ##- Output directly with the SQL Query coDE, without need "```sql" or "```"
+    ##- Also pay attention to the appearance of unnecessary backticks, that could makes sql query error
+    ##- Pay lot of your attention on the field name from bigquery, mostly we are using space not underscore, so doublecheck on it more precise
+    ##- Ensure always to use LOWER on all and every field's value and input's value
+    ##- Always remember if the field name has space, enclose it in backticks (`).
 
     Table Schema:
     {schema_info}
