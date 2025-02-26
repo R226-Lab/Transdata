@@ -3,13 +3,26 @@ import streamlit as st
 from google.cloud import bigquery
 import google.generativeai as genai
 from google.oauth2 import service_account
+from decimal import Decimal
+from datetime import datetime
+
+# Fungsi untuk mengubah data ke format JSON yang bisa dibaca
+def serialize(obj):
+    if isinstance(obj, Decimal):
+        return float(obj)  # Ubah Decimal ke float
+    elif isinstance(obj, datetime):
+        return obj.isoformat()  # Ubah datetime ke format string ISO
+    elif isinstance(obj, bigquery.Row):
+        return dict(obj.items())  # Ubah BigQuery Row ke dictionary
+    else:
+        raise TypeError(f"Type {type(obj)} not serializable")
 
 # Konfigurasi BigQuery Client
 credentials_info = {
     "type": st.secrets["bigquery"]["type"],
     "project_id": st.secrets["bigquery"]["project_id"],
     "private_key_id": st.secrets["bigquery"]["private_key_id"],
-    "private_key": st.secrets["bigquery"]["private_key"].replace("\\n", "\n"),  # Perbaiki newline
+    "private_key": st.secrets["bigquery"]["private_key"].replace("\\n", "\n"),
     "client_email": st.secrets["bigquery"]["client_email"],
     "client_id": st.secrets["bigquery"]["client_id"],
     "auth_uri": st.secrets["bigquery"]["auth_uri"],
@@ -19,17 +32,14 @@ credentials_info = {
     "universe_domain": st.secrets["bigquery"]["universe_domain"],
 }
 
-# Konversi ke objek credentials
 credentials = service_account.Credentials.from_service_account_info(credentials_info)
-
-# Inisialisasi BigQuery Client
 client = bigquery.Client(credentials=credentials, project=credentials_info["project_id"])
 
-# Gantilah dengan dataset dan tabel yang benar
+# Dataset & Tabel
 dataset_id = "transdata-451904.full"
 table_id = "transdata-451904.full.transdata"
 
-# Ambil schema tabel dari BigQuery
+# Ambil schema tabel
 table_ref = client.get_table(table_id)
 schema_info = "\n".join([f"{field.name} ({field.field_type})" for field in table_ref.schema])
 
@@ -38,15 +48,13 @@ query = f"SELECT * FROM `{table_id}` LIMIT 5"
 query_job = client.query(query)
 rows = query_job.result()
 
-# Konversi hasil query ke JSON agar lebih terbaca
-sample_data = [dict(row.items()) for row in rows]  # List of dictionaries
-sample_data_str = json.dumps(sample_data, indent=2)  # Convert to JSON string
+# Konversi hasil query ke JSON yang valid
+sample_data = [dict(row.items()) for row in rows]
+sample_data_str = json.dumps(sample_data, indent=2, default=serialize)  # Pakai default serializer
 
-# Konfigurasi Google Gemini API
+# Inisialisasi Google Gemini AI
 api_key = st.secrets["genai"]["api_key"]
 genai.configure(api_key=api_key)
-
-# Pilih model Gemini
 model = genai.GenerativeModel("gemini-1.5-flash-latest")
 
 # UI Streamlit
@@ -56,8 +64,7 @@ st.title("Query Data BigQuery dengan NLP")
 user_question = st.text_input("Masukkan pertanyaan (misal: 'Top 5 penyedia di Jakarta'):")
 
 if st.button("Jalankan Query"):
-    
-    # Buat prompt untuk Gemini
+    # Prompt untuk Gemini
     prompt = f"""
     Based on the following BigQuery table schema and sample data, convert the given natural language question into an SQL query.
 
@@ -73,28 +80,18 @@ if st.button("Jalankan Query"):
     # Minta Gemini untuk membuat SQL berdasarkan data BigQuery yang tersedia
     response = model.generate_content(prompt)
 
-    # Pastikan Gemini memberikan output sebelum lanjut ke eksekusi
+    # Pastikan respons ada
     if response and hasattr(response, "text"):
-        generated_sql = response.text
+        generated_sql = response.text.strip()
         st.write("Query SQL yang dihasilkan:")
-        st.code(generated_sql)
+        st.code(generated_sql, language="sql")
 
-        # Validasi format SQL sebelum dijalankan
-        if "SELECT" in generated_sql.upper():
-            try:
-                # Jalankan SQL ke BigQuery
-                query_job = client.query(generated_sql)
-                results = query_job.result()
+        # Jalankan SQL ke BigQuery
+        query_job = client.query(generated_sql)
+        results = query_job.result()
 
-                # Tampilkan hasil dalam tabel jika tidak kosong
-                if results.total_rows > 0:
-                    st.write("Hasil Query:")
-                    st.dataframe(results.to_dataframe())
-                else:
-                    st.warning("Query berhasil dijalankan, tetapi tidak ada hasil.")
-            except Exception as e:
-                st.error(f"Terjadi kesalahan saat menjalankan query: {e}")
-        else:
-            st.error("SQL yang dihasilkan tidak valid.")
+        # Tampilkan hasil dalam tabel
+        st.write("Hasil Query:")
+        st.dataframe(results.to_dataframe())
     else:
-        st.error("Gemini gagal menghasilkan query SQL.")
+        st.error("Gagal mendapatkan query SQL dari Gemini. Coba lagi.")
