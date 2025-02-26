@@ -67,6 +67,10 @@ st.title("Query Data BigQuery dengan NLP")
 # Input Natural Language
 user_question = st.text_input("Masukkan pertanyaan (misal: 'Top 5 penyedia di Jakarta'):")
 
+# Cek apakah ada hasil query sebelumnya
+if "last_query_result" not in st.session_state:
+    st.session_state.last_query_result = []
+
 if st.button("Jalankan Query"):
     # Prompt untuk Gemini
     prompt = f"""
@@ -90,6 +94,9 @@ if st.button("Jalankan Query"):
     ##- Pay lot of your attention on the field name from bigquery, mostly we are using space not underscore, so doublecheck on it more precise
     ##- Ensure always to use LOWER on all and every field's value and input's value
     ##- Always remember if the field name has space, enclose it in backticks (`).
+
+    Previous Query Results
+    {st.session_state.last_query_result}  
 
     Table Schema:
     {schema_info}
@@ -117,5 +124,6 @@ if st.button("Jalankan Query"):
         # Tampilkan hasil dalam tabel
         st.write("Hasil Query:")
         st.dataframe(results.to_dataframe())
+        st.session_state.last_query_result = df.to_dict(orient="records")
     else:
         st.error("Gagal mendapatkan query SQL dari Gemini. Coba lagi.")
