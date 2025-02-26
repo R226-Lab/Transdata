@@ -68,6 +68,14 @@ if st.button("Jalankan Query"):
     prompt = f"""
     Based on the following BigQuery table schema and sample data, convert the given natural language question into an SQL query.
 
+    ## **Important Instructions**:
+    - Use the exact table name: `{table_id}`
+    - Use the exact column names and formatting as they appear in BigQuery.
+    - Preserve **uppercase and lowercase** letters exactly as in the schema.
+    - If a column name has spaces, enclose it in backticks (`).
+    - Do not modify or guess any column names.
+    - Ensure the query runs correctly in **Google BigQuery**.
+
     Table Schema:
     {schema_info}
 
