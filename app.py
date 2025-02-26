@@ -77,6 +77,7 @@ if st.button("Jalankan Query"):
     - Ensure the query runs correctly in **Google BigQuery**.
     - Output directly with the SQL Query coDE, without need "```sql" or "```"
     - Also pay attention to the appearance of unnecessary backticks, that could makes sql query error
+    - Pay lot of your attention on the field name from bigquery, mostly we are using space not underscore, so doublecheck on it more precise
 
     Table Schema:
     {schema_info}
