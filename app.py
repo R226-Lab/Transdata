@@ -79,6 +79,7 @@ if st.button("Jalankan Query"):
     - Also pay attention to the appearance of unnecessary backticks, that could makes sql query error
     - Pay lot of your attention on the field name from bigquery, mostly we are using space not underscore, so doublecheck on it more precise
     - Ensure always to use LOWER on all and every field's value and input's value
+    - Always remember if the field name has spaces, enclose it in backticks.
 
     Table Schema:
     {schema_info}
