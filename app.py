@@ -6,6 +6,10 @@ from google.oauth2 import service_account
 from decimal import Decimal
 from datetime import datetime
 
+def clean_sql_output(gemini_output):
+    # Hapus ```sql di awal dan ``` di akhir
+    return gemini_output.strip("`sql").strip("`").strip()
+
 # Fungsi untuk mengubah data ke format JSON yang bisa dibaca
 def serialize(obj):
     if isinstance(obj, Decimal):
@@ -100,6 +104,7 @@ if st.button("Jalankan Query"):
         generated_sql = response.text.strip()
         st.write("Query SQL yang dihasilkan:")
         st.code(generated_sql, language="sql")
+        generated_sql = clean_sql_output(generated_sql)
 
         # Jalankan SQL ke BigQuery
         query_job = client.query(generated_sql)
