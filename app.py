@@ -78,6 +78,7 @@ if st.button("Jalankan Query"):
     - Output directly with the SQL Query coDE, without need "```sql" or "```"
     - Also pay attention to the appearance of unnecessary backticks, that could makes sql query error
     - Pay lot of your attention on the field name from bigquery, mostly we are using space not underscore, so doublecheck on it more precise
+    - Ensure always to use LOWER on every field's value, input's value especially for the use of WHERE, GROUP BY, ORDER BY
 
     Table Schema:
     {schema_info}
